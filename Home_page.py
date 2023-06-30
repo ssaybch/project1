@@ -12,6 +12,29 @@ st.set_page_config(
 )
 
 ##### 함수 지정 단락 #####
+def ro5(mw, hbd, hba, wlogp):
+    ro5_violoations = 0
+    failed = list()
+    if mw >= 500:
+        ro5_violations = ro5_violations + 1
+        failed.append("molecular weight violated: %s" % mw)
+    if hbd > 5:
+        ro5_violations = ro5_violations + 1
+        failed.append("HBD violated: %s" % hbd)
+    if hba > 10:
+        ro5_violations = ro5_violations + 1
+        failed.append("HBA violated: %s" % hba)
+    if wlogp > 5:
+        ro5_violations = ro5_violations + 1 #초과냐 이상이냐
+
+    if ro5_violations > 0:
+        violation = "violated"
+    else:
+        violation = "passed"
+    
+    return violation
+    
+
 def calc_rdkit(query):
     """
     간단한 SMILES 계산기.
@@ -38,28 +61,6 @@ def calc_rdkit(query):
 
     return mw, qed, wlogp, tpsa, hbd, hba, rtb, violation
 
-
-def ro5(mw, hbd, hba, wlogp):
-    ro5_violoations = 0
-    failed = list()
-    if mw >= 500:
-        ro5_violations = ro5_violations + 1
-        failed.append("molecular weight violated: %s" % mw)
-    if hbd > 5:
-        ro5_violations = ro5_violations + 1
-        failed.append("HBD violated: %s" % hbd)
-    if hba > 10:
-        ro5_violations = ro5_violations + 1
-        failed.append("HBA violated: %s" % hba)
-    if wlogp > 5:
-        ro5_violations = ro5_violations + 1 #초과냐 이상이냐
-
-    if ro5_violations > 0:
-        violation = "violated"
-    else:
-        violation = "passed"
-    
-    return result
 
 ##### 사이드바 지정 단락 #####
 with st.sidebar:
