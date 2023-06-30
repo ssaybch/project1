@@ -5,6 +5,11 @@ import rdkit
 from rdkit import Chem
 from rdkit.Chem import QED
 
+st.set_page_config(
+    page_title="PT2 WEB-app",
+    layout="wide"
+)
+
 def QEDcalculation(query):
     """
     간단한 QED 계산기. 
