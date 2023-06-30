@@ -30,7 +30,7 @@ def ro5(mw, hbd, hba, wlogp):
     if ro5_violations > 0:
         violation = "violated"
     else:
-        violation = "passed"
+        violation = "위반사항이 없습니다."
     
     return violation
     
@@ -76,7 +76,7 @@ st.write("Molecular weight: ", mw)
 st.write("QED: ", qed)
 st.write("wlogp: ", wlogp)
 st.write("TPSA; ", tpsa, "(단, S와 P의 영향은 고려하지 않았으며 SwissADME의 결과와 동일함.)")
-st.write("num of Hydrogen bond donors; ", hbd)
-st.write("num of Hydrogen bond acceptors; ", hba)
-st.write("num of Rotatable bonds; ", rtb)
-st.write("Ro5; ", violation)
+st.write("num of Hydrogen bond donors: ", hbd)
+st.write("num of Hydrogen bond acceptors: ", hba)
+st.write("num of Rotatable bonds: ", rtb)
+st.write("Ro5: ", violation)
