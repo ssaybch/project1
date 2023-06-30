@@ -29,7 +29,7 @@ def calc_rdkit(query):
     mol = Chem.MolFromSmiles(query)
     mw = Descriptors.MolWt(mol)
     qed = round(QED.qed(mol),3)
-    wlogp = round(Chem.Crippen.MolLogP(mol),3)
+    wlogp = Chem.Crippen.MolLogP(mol)
     WLOGP = Descriptors.MolLogP(mol)
     tpsa = Descriptors.TPSA(mol, includeSandP = False)
     hbd = Lipinski.NumHDonors(mol)
