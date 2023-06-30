@@ -14,6 +14,6 @@ def QEDcalculation(query):
     print("QED", round(QED.qed(m),3), "WLOGP", round(Chem.Crippen.MolLogP(m),2), sep='\t')
     
 
-input_string  = st.text_input("Please input interesting SMILES",""CC(=C)C(O)=O")
+input_string  = st.text_input("Please input interesting SMILES","CC(=C)C(O)=O")
 if input_string == True:
     st.write(QEDcalculation(input_string)) #메타크릴산 독성.
