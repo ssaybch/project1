@@ -6,4 +6,3 @@ kaleido
 streamlit
 rdkit==2023.3.2
 Mordred==1.2.0
-mordred-web
