@@ -4,5 +4,4 @@ import numpy as np
 
 st.write("Hello, world")
 
-
-st.title('This is a title')
+input_string  = st.text_input("Please input interesting SMILES","CCCC=CC")
