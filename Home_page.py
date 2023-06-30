@@ -11,7 +11,7 @@ def QEDcalculation(query):
     query로 SMILES를 받아 계산이나 해보자.
     """
     m = Chem.MolFromSmiles(query)
-    result = "QED" + str(round(QED.qed(m),3)) + "WLOGP" str(round(Chem.Crippen.MolLogP(m),2))
+    result = "QED" + str(round(QED.qed(m),3)) + "WLOGP" + str(round(Chem.Crippen.MolLogP(m),2))
     
     return result
     
