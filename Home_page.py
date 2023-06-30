@@ -13,7 +13,7 @@ st.set_page_config(
 
 ##### 함수 지정 단락 #####
 def ro5(mw, hbd, hba, wlogp):
-    ro5_violoations = 0
+    ro5_violations = 0
     failed = list()
     if mw >= 500:
         ro5_violations = ro5_violations + 1
