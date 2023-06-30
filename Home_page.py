@@ -12,6 +12,29 @@ st.set_page_config(
 )
 
 ##### 함수 지정 단락 #####
+def ro5(mw, hbd, hba, wlogp):
+    ro5_violoations = 0
+    failed = list()
+    if mw >= 500:
+        ro5_violations = ro5_violations + 1
+        failed.append("molecular weight violated: %s" % mw)
+    if hbd > 5:
+        ro5_violations = ro5_violations + 1
+        failed.append("HBD violated: %s" % hbd)
+    if hba > 10:
+        ro5_violations = ro5_violations + 1
+        failed.append("HBA violated: %s" % hba)
+    if wlogp > 5:
+        ro5_violations = ro5_violations + 1 #초과냐 이상이냐
+
+    if ro5_violations > 0:
+        violation = "violated"
+    else:
+        violation = "passed"
+    
+    return result
+
+
 def calc_rdkit(query):
     """
     간단한 SMILES 계산기.
@@ -29,14 +52,15 @@ def calc_rdkit(query):
     mol = Chem.MolFromSmiles(query)
     mw = Descriptors.MolWt(mol)
     qed = round(QED.qed(mol),3)
-    wlogp = Chem.Crippen.MolLogP(mol)
-    WLOGP = Descriptors.MolLogP(mol)
+    wlogp = Descriptors.MolLogP(mol) #Chem.Crippen.MolLogP(mol)과 같은 기능
     tpsa = Descriptors.TPSA(mol, includeSandP = False)
     hbd = Lipinski.NumHDonors(mol)
     hba = Lipinski.NumHAcceptors(mol)
     rtb = Lipinski.NumRotatableBonds(mol)
+    violation = ro5(mw, hbd, hba, wlogp)
 
-    return mw, qed, wlogp, WLOGP, tpsa, hbd, hba, rtb
+    return mw, qed, wlogp, tpsa, hbd, hba, rtb, violation
+
 
 ##### 사이드바 지정 단락 #####
 with st.sidebar:
@@ -47,12 +71,12 @@ with st.sidebar:
 input_string  = st.text_input("Please input interesting SMILES","CC(=C)C(O)=O", help="올바르지 않은 SMILES일 경우 에러가 출력됩니다.")
 st.write("입력한 분자 SMILES: ", input_string)
 
-mw, qed, wlogp, WLOGP, tpsa, hbd, hba, rtb = calc_rdkit(input_string)
+mw, qed, wlogp, tpsa, hbd, hba, rtb, violation= calc_rdkit(input_string)
 st.write("Molecular weight: ", mw)
 st.write("QED: ", qed)
 st.write("wlogp: ", wlogp)
-st.write("WLOGP -Descriptor 모듈에서 계산한값-: ", WLOGP)
 st.write("TPSA; ", tpsa, "(단, S와 P의 영향은 고려하지 않았으며 SwissADME의 결과와 동일함.)")
 st.write("num of Hydrogen bond donors; ", hbd)
 st.write("num of Hydrogen bond acceptors; ", hba)
 st.write("num of Rotatable bonds; ", rtb)
+st.write("Ro5; ", violation)
