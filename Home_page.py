@@ -18,6 +18,7 @@ def QEDcalculation(query):
 
 input_string  = st.text_input("Please input interesting SMILES","CC(=C)C(O)=O")
 st.write("현재", input_string)
+st.write(QEDcalculation(input_string))
 
 if input_string == True:
     st.write(QEDcalculation(input_string)) #메타크릴산 독성.
