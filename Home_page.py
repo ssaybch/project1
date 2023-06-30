@@ -12,15 +12,6 @@ st.set_page_config(
 )
 
 ##### 함수 지정 단락 #####
-def QEDcalculation(query):
-    """
-    간단한 QED 계산기. 
-    query로 SMILES를 받아 계산이나 해보자.
-    """
-    m = Chem.MolFromSmiles(query)
-    result = "QED" + str(round(QED.qed(m),3)) + "WLOGP" + str(round(Chem.Crippen.MolLogP(m),2))
-    return result
-
 def calc_rdkit(query):
     """
     간단한 SMILES 계산기.
@@ -45,7 +36,7 @@ def calc_rdkit(query):
     hba = Lipinski.NumHAcceptors(mol)
     rtb = Lipinski.NumRotatableBonds(mol)
 
-    return mw, qed, wlogp, WLOGP, tpsa, hdb, hba, rtb
+    return mw, qed, wlogp, WLOGP, tpsa, hbd, hba, rtb
 
 ##### 사이드바 지정 단락 #####
 with st.sidebar:
@@ -56,7 +47,7 @@ with st.sidebar:
 input_string  = st.text_input("Please input interesting SMILES","CC(=C)C(O)=O", help="올바르지 않은 SMILES일 경우 에러가 출력됩니다.")
 st.write("입력한 분자 SMILES: ", input_string)
 
-mw, qed, wlogp, WLOGP, tpsa, hdb, hba, rtb = calc_rdkit(input_string)
+mw, qed, wlogp, WLOGP, tpsa, hbd, hba, rtb = calc_rdkit(input_string)
 st.write("Molecular weight: ", mw)
 st.write("QED: ", qed)
 st.write("wlogp: ", wlogp)
