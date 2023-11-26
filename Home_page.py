@@ -58,8 +58,9 @@ def calc_rdkit(query):
     hba = Lipinski.NumHAcceptors(mol)
     rtb = Lipinski.NumRotatableBonds(mol)
     violation = ro5(mw, hbd, hba, wlogp)
+    charge = Chem.rdmolops.GetFormalCharge(mol) 
 
-    return mw, qed, wlogp, tpsa, hbd, hba, rtb, violation
+    return mw, qed, wlogp, tpsa, hbd, hba, rtb, violation, charge
 
 
 ##### 사이드바 지정 단락 #####
@@ -80,3 +81,4 @@ st.write("num of Hydrogen bond donors: ", hbd)
 st.write("num of Hydrogen bond acceptors: ", hba)
 st.write("num of Rotatable bonds: ", rtb)
 st.write("Ro5: ", violation)
+st.write("Charge: ", charge)
