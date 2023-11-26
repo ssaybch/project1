@@ -58,7 +58,7 @@ def calc_rdkit(query):
     hba = Lipinski.NumHAcceptors(mol)
     rtb = Lipinski.NumRotatableBonds(mol)
     violation = ro5(mw, hbd, hba, wlogp)
-    charge = Chem.rdmolops.GetFormalCharge(mol) 
+    charge = Chem.GetFormalCharge(mol) 
 
     return mw, qed, wlogp, tpsa, hbd, hba, rtb, violation, charge
 
