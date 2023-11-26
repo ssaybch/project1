@@ -72,7 +72,7 @@ with st.sidebar:
 input_string  = st.text_input("Please input interesting SMILES","CC(=C)C(O)=O", help="올바르지 않은 SMILES일 경우 에러가 출력됩니다.")
 st.write("입력한 분자 SMILES: ", input_string)
 
-mw, qed, wlogp, tpsa, hbd, hba, rtb, violation= calc_rdkit(input_string)
+mw, qed, wlogp, tpsa, hbd, hba, rtb, violation, charge = calc_rdkit(input_string)
 st.write("Molecular weight: ", mw)
 st.write("QED: ", qed)
 st.write("wlogp: ", wlogp)
