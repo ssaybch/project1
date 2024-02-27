@@ -5,6 +5,14 @@ import rdkit
 from rdkit import Chem
 from rdkit.Chem import QED, Descriptors, Lipinski
 
+# Chembl 예측 관련 모듈
+import onnxruntime
+import numpy as np
+from rdkit import Chem
+from rdkit.Chem import rdMolDescriptors
+from chembl_webresource_client.new_client import new_client
+
+
 ##### 페이지레이아웃 지정 단락 #####
 st.set_page_config(
     page_title="PT2 WEB-app",
@@ -63,6 +71,55 @@ def calc_rdkit(query):
     return mw, qed, wlogp, tpsa, hbd, hba, rtb, violation, charge
 
 
+def calc_morgan_fp(smiles):
+    mol = Chem.MolFromSmiles(smiles)
+    fp = rdMolDescriptors.GetMorganFingerprintAsBitVect(
+        mol, 2, nBits=1024)
+    a = np.zeros((0,), dtype=np.float32)
+    Chem.DataStructs.ConvertToNumpyArray(fp, a)
+    return a
+
+def format_preds(preds, targets):
+    preds = np.concatenate(preds).ravel()
+    np_preds = [(tar, pre) for tar, pre in zip(targets, preds)]
+    dt = [('chembl_id','|U20'), ('pred', '<f4')]
+    np_preds = np.array(np_preds, dtype=dt)
+    np_preds[::-1].sort(order='pred')
+    return np_preds
+
+
+
+# CHEMBL예측 미리 불러올것 밖으로 빼놓기
+ort_session = onnxruntime.InferenceSession("chembl_33_multitask.onnx")
+
+def chembl_func(smiles):
+    descs = calc_morgan_fp(smiles)
+    ort_inputs = {ort_session.get_inputs()[0].name: descs}
+    preds = ort_session.run(None, ort_inputs)
+    
+    preds = format_preds(preds, [o.name for o in ort_session.get_outputs()])
+    predicted_CHEMBL.append([n[0] for n in preds if n[1] >= 0.7]) #예측값하한선 0.7
+    predicted_probability.append([n[1] for n in preds if n[1] >= 0.7]) #예측값하한선 0.7
+    dict_predicted_CHEMBL = dict(zip(predicted_CHEMBL, predicted_probability))
+    
+    target = new_client.target
+    tars = target.filter(target_chembl_id__in=list(new_dict.keys()))
+    
+    result_9606_GENE_chemblid_proba = list()
+    for m in range(len(tars)):
+        if tars[m]['organism'] == 'Homo sapiens':
+            for n in tars[m]['target_components'][0]['target_component_synonyms']:
+                if n['syn_type'] == "GENE_SYMBOL":
+                    gene_list = n['component_synonym']
+                    result_9606_GENE_chemblid_proba.append([
+                        gene_list,
+                        tars[m]['target_chembl_id'],
+                        new_dict[tars[m]['target_chembl_id']]
+                    ])
+    result_df = pd.DataFrame(result_9606_GENE_chemblid_proba)
+    return result_df
+            
+
 ##### 사이드바 지정 단락 #####
 with st.sidebar:
     st.write("여기는 사이드바")
@@ -82,3 +139,5 @@ st.write("num of Hydrogen bond acceptors: ", hba)
 st.write("num of Rotatable bonds: ", rtb)
 st.write("Ro5: ", violation)
 st.write("Charge: ", charge)
+
+
