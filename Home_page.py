@@ -12,6 +12,10 @@ from rdkit import Chem
 from rdkit.Chem import rdMolDescriptors
 from chembl_webresource_client.new_client import new_client
 
+# mol 그리기
+from streamlit_ketcher import st_ketcher
+
+
 
 ##### 페이지레이아웃 지정 단락 #####
 st.set_page_config(
@@ -118,7 +122,7 @@ def chembl_func(smiles):
                         tars[m]['target_chembl_id'],
                         dict_predicted_CHEMBL[tars[m]['target_chembl_id']]
                     ])
-    result_df = pd.DataFrame(result_9606_GENE_chemblid_proba)
+    result_df = pd.DataFrame(data = result_9606_GENE_chemblid_proba, columns=['GENE','ChEMBL_ID','probability'])
     return result_df
             
 
@@ -130,6 +134,7 @@ with st.sidebar:
 ##### 메인콘텐츠 지정 단락 #####
 input_string  = st.text_input("Please input interesting SMILES","CC(=C)C(O)=O", help="올바르지 않은 SMILES일 경우 에러가 출력됩니다.")
 st.write("입력한 분자 SMILES: ", input_string)
+smile_code = st_ketcher(input_string, height=400)
 
 mw, qed, wlogp, tpsa, hbd, hba, rtb, violation, charge = calc_rdkit(input_string)
 st.write("Molecular weight: ", mw)
