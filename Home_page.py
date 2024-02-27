@@ -102,7 +102,7 @@ def chembl_func(smiles):
     preds = ort_session.run(None, ort_inputs)
     
     preds = format_preds(preds, [o.name for o in ort_session.get_outputs()])
-    filtered_preds = np.array([item for item in preds if float(item[1]) >= 0.7])
+    filtered_preds = np.array([item for item in preds if float(item[1]) >= 0.6])
     
     predicted_CHEMBL = [str(n[0]) for n in filtered_preds] #예측값하한선 0.7
     predicted_probability = [float(n[1]) for n in filtered_preds] #예측값하한선 0.7
