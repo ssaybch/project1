@@ -181,6 +181,11 @@ smile_code = st_ketcher(input_string, height=400)
 
 mw, qed, wlogp, tpsa, hbd, hba, rtb, violation, charge = calc_rdkit(input_string)
 HIA, BBB = is_inside_EGG(tpsa, wlogp)
+if HIA == True:
+    HIA = 'High'
+else:
+    HIA = 'Low'
+    
 st.subheader("Physicochemical properties, simple ADME")
 st.write("Molecular weight: ", round(mw, 3))
 st.write("QED: ", qed, '[1]')
