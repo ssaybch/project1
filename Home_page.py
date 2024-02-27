@@ -124,36 +124,82 @@ def chembl_func(smiles):
                     ])
     result_df = pd.DataFrame(data = result_9606_GENE_chemblid_proba, columns=['GENE','ChEMBL_ID','probability'])
     return result_df
-            
+
+
+def is_point_inside_ellipse(x, y, ellipse_center, ellipse_width, ellipse_height, angle):
+    # 타원의 중심, 너비, 높이, 회전 각도를 변수로 받음
+    h, k = ellipse_center
+    a, b = ellipse_width / 2, ellipse_height / 2
+    theta = np.radians(angle)  # 각도를 라디안으로 변환
+
+    # 점 (x, y)를 타원 중심을 기준으로 회전
+    x_rot = (x - h) * np.cos(-theta) + (y - k) * np.sin(-theta)
+    y_rot = -(x - h) * np.sin(-theta) + (y - k) * np.cos(-theta)
+
+    # 변환된 좌표를 사용하여 타원 내부에 있는지 확인
+    if (x_rot**2 / a**2) + (y_rot**2 / b**2) < 1:
+        return True  # 타원 내부에 있음
+    else:
+        return False  # 타원 외부에 있음
+
+ellipse_center_white_yolk = (71.051, 2.292)
+ellipse_width_white_yolk = 142.081
+ellipse_height_white_yolk = 8.740
+angle_white_yolk = -1.031325
+
+ellipse_center_yolk = (38.117, 3.177)
+ellipse_width_yolk = 82.061
+ellipse_height_yolk = 5.557
+angle_yolk = -0.177887
+
+# 점이 yolk 타원 내부에 있는지 확인
+def is_inside_EGG(x, y):
+    HIA = is_point_inside_ellipse(
+        point_x, point_y, 
+        ellipse_center_white_yolk, ellipse_width_white_yolk, ellipse_height_white_yolk, 
+        angle_white_yolk
+    )
+    
+    BBB = is_point_inside_ellipse(
+        point_x, point_y, 
+        ellipse_center_yolk, ellipse_width_yolk, ellipse_height_yolk, 
+        angle_yolk
+    )
+    return HIA, BBB
+
 
 ##### 사이드바 지정 단락 #####
 with st.sidebar:
-    st.write("여기는 사이드바")
+    st.write("asdfasd")
 
 
 ##### 메인콘텐츠 지정 단락 #####
-st.header("분석하려는 성분의 SMILES 또는 isoSMILES를 아래에 입력하세요.")
-input_string  = st.text_input("Please input interesting SMILES","CC(=C)C(O)=O", help="올바르지 않은 SMILES일 경우 에러가 출력됩니다.")
+st.subheader("분석하려는 성분의 SMILES 또는 isoSMILES를 아래에 입력하세요.")
+input_string  = st.text_input("","CC(=C)C(O)=O", help="올바르지 않은 SMILES일 경우 에러가 출력됩니다.")
 st.write("입력한 분자 SMILES: ", input_string)
 smile_code = st_ketcher(input_string, height=400)
 
 mw, qed, wlogp, tpsa, hbd, hba, rtb, violation, charge = calc_rdkit(input_string)
-st.header("물리화학적 특성")
+HIA, BBB = is_inside_EGG(tpsa, wlogp)
+st.subheader("Physicochemical properties, simple ADME")
 st.write("Molecular weight: ", round(mw, 3))
-st.write("QED: ", qed)
+st.write("QED: ", qed, '[1]')
 st.write("wlogp: ", wlogp)
 st.write("TPSA; ", tpsa, "(단, S와 P의 영향은 고려하지 않았으며 SwissADME의 결과와 동일함.)")
 st.write("num of Hydrogen bond donors: ", hbd)
 st.write("num of Hydrogen bond acceptors: ", hba)
 st.write("num of Rotatable bonds: ", rtb)
-st.write("Ro5: ", violation, '[1]')
 st.write("Charge: ", charge)
+st.write("Ro5: ", violation, '[2]')
+st.write("Human intestine absorbable: ", HIA, '[3]')
+st.write("Brain-blood barrier permeable: ", BBB, '[3]')
 
-st.header("결합 단백질 예측")
-st.subheader("관심 성분과 70 % 이상의 확률로 결합이 예측되는 단백질은 다음과 같습니다. ChEMBL DB 33 버전을 사용합니다.")
+st.subheader("Target protein prediction")
+st.text("관심 성분과 70 % 이상의 확률로 결합이 예측되는 단백질은 다음과 같습니다. ChEMBL DB 33 버전을 사용합니다.")
 st.dataframe(chembl_func(input_string), use_container_width =True)
 
+st.write("")
 st.write("References")
-st.write("[1] Lipinski CA, Lombardo F, Dominy BW, Feeney PJ. Experimental and computational approaches to estimate solubility and permeability in drug discovery and development settings. Adv Drug Deliv Rev. 2001 Mar 1;46(1-3):3-26. doi: 10.1016/s0169-409x(00)00129-0. PMID: 11259830.")
-
-
+st.write("[1] Bickerton GR, Paolini GV, Besnard J, Muresan S, Hopkins AL. Quantifying the chemical beauty of drugs. Nat Chem. 2012 Jan 24;4(2):90-8. doi: 10.1038/nchem.1243. PMID: 22270643; PMCID: PMC3524573.")
+st.write("[2] Lipinski CA, Lombardo F, Dominy BW, Feeney PJ. Experimental and computational approaches to estimate solubility and permeability in drug discovery and development settings. Adv Drug Deliv Rev. 2001 Mar 1;46(1-3):3-26. doi: 10.1016/s0169-409x(00)00129-0. PMID: 11259830.")
+st.write("[3] Daina A, Zoete V. A BOILED-Egg To Predict Gastrointestinal Absorption and Brain Penetration of Small Molecules. ChemMedChem. 2016 Jun 6;11(11):1117-21. doi: 10.1002/cmdc.201600182. Epub 2016 May 24. PMID: 27218427; PMCID: PMC5089604.")
