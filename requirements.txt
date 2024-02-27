@@ -1,1 +1,5 @@
-streamlit
+pandas
+numpy
+rdkit
+onnxruntime
+chembl-webresource-client
