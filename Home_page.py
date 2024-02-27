@@ -139,17 +139,21 @@ smile_code = st_ketcher(input_string, height=400)
 
 mw, qed, wlogp, tpsa, hbd, hba, rtb, violation, charge = calc_rdkit(input_string)
 st.header("물리화학적 특성")
-st.write("Molecular weight: ", mw)
+st.write("Molecular weight: ", round(mw, 3))
 st.write("QED: ", qed)
 st.write("wlogp: ", wlogp)
 st.write("TPSA; ", tpsa, "(단, S와 P의 영향은 고려하지 않았으며 SwissADME의 결과와 동일함.)")
 st.write("num of Hydrogen bond donors: ", hbd)
 st.write("num of Hydrogen bond acceptors: ", hba)
 st.write("num of Rotatable bonds: ", rtb)
-st.write("Ro5: ", violation)
+st.write("Ro5: ", violation, '[1]')
 st.write("Charge: ", charge)
 
 st.header("결합 단백질 예측")
-st.subheader("관심 성분에 70 % 이상의 확률로 결합이 예측되는 단백질은 다음과 같습니다. ChEMBL DB 33 버전을 사용합니다.")
+st.subheader("관심 성분과 70 % 이상의 확률로 결합이 예측되는 단백질은 다음과 같습니다. ChEMBL DB 33 버전을 사용합니다.")
 st.dataframe(chembl_func(input_string), use_container_width =True)
+
+st.write("References")
+st.write("[1] Lipinski CA, Lombardo F, Dominy BW, Feeney PJ. Experimental and computational approaches to estimate solubility and permeability in drug discovery and development settings. Adv Drug Deliv Rev. 2001 Mar 1;46(1-3):3-26. doi: 10.1016/s0169-409x(00)00129-0. PMID: 11259830.")
+
 
