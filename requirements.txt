@@ -5,3 +5,4 @@ rdkit
 streamlit-ketcher
 onnxruntime
 chembl-webresource-client
+seaborn
