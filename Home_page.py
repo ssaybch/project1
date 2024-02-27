@@ -102,7 +102,7 @@ def chembl_func(smiles):
     preds = ort_session.run(None, ort_inputs)
     
     preds = format_preds(preds, [o.name for o in ort_session.get_outputs()])
-    filtered_preds = np.array([item for item in preds if float(item[1]) >= 0.6])
+    filtered_preds = np.array([item for item in preds if float(item[1]) >= 0.7])
     
     predicted_CHEMBL = [str(n[0]) for n in filtered_preds] #예측값하한선 0.7
     predicted_probability = [float(n[1]) for n in filtered_preds] #예측값하한선 0.7
@@ -132,11 +132,13 @@ with st.sidebar:
 
 
 ##### 메인콘텐츠 지정 단락 #####
+st.header("분석하려는 성분의 SMILES 또는 isoSMILES를 아래에 입력하세요.")
 input_string  = st.text_input("Please input interesting SMILES","CC(=C)C(O)=O", help="올바르지 않은 SMILES일 경우 에러가 출력됩니다.")
 st.write("입력한 분자 SMILES: ", input_string)
 smile_code = st_ketcher(input_string, height=400)
 
 mw, qed, wlogp, tpsa, hbd, hba, rtb, violation, charge = calc_rdkit(input_string)
+st.header("물리화학적 특성")
 st.write("Molecular weight: ", mw)
 st.write("QED: ", qed)
 st.write("wlogp: ", wlogp)
@@ -147,5 +149,7 @@ st.write("num of Rotatable bonds: ", rtb)
 st.write("Ro5: ", violation)
 st.write("Charge: ", charge)
 
+st.header("결합 단백질 예측")
+st.subheader("관심 성분에 70 % 이상의 확률로 결합이 예측되는 단백질은 다음과 같습니다. ChEMBL DB 33 버전을 사용합니다.")
 st.dataframe(chembl_func(input_string), use_container_width =True)
 
