@@ -94,7 +94,7 @@ def format_preds(preds, targets):
 
 
 # CHEMBL예측 미리 불러올것 밖으로 빼놓기
-ort_session = onnxruntime.InferenceSession("./chembl_33_multitask.onnx")
+ort_session = onnxruntime.InferenceSession("chembl_33_multitask.onnx")
 
 def chembl_func(smiles):
     descs = calc_morgan_fp(smiles)
