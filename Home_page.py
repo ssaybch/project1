@@ -6,7 +6,7 @@ from rdkit import Chem
 from rdkit.Chem import QED, Descriptors, Lipinski
 
 # Chembl 예측 관련 모듈
-#import onnxruntime
+import onnxruntime
 import numpy as np
 from rdkit import Chem
 from rdkit.Chem import rdMolDescriptors
