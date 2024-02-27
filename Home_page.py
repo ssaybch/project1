@@ -105,7 +105,7 @@ def chembl_func(smiles):
     dict_predicted_CHEMBL = dict(zip(predicted_CHEMBL, predicted_probability))
     
     target = new_client.target
-    tars = target.filter(target_chembl_id__in=list(new_dict.keys()))
+    tars = target.filter(target_chembl_id__in=list(dict_predicted_CHEMBL.keys()))
     
     result_9606_GENE_chemblid_proba = list()
     for m in range(len(tars)):
@@ -116,7 +116,7 @@ def chembl_func(smiles):
                     result_9606_GENE_chemblid_proba.append([
                         gene_list,
                         tars[m]['target_chembl_id'],
-                        new_dict[tars[m]['target_chembl_id']]
+                        dict_predicted_CHEMBL[tars[m]['target_chembl_id']]
                     ])
     result_df = pd.DataFrame(result_9606_GENE_chemblid_proba)
     return result_df
