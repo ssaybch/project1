@@ -1,5 +1,7 @@
+streamlit
 pandas
 numpy
 rdkit
+streamlit-ketcher
 onnxruntime
 chembl-webresource-client
