@@ -2,5 +2,5 @@ streamlit
 pandas
 numpy
 rdkit
-onnxruntime==1.17.1
-chembl_webresource_client
+onnxruntime==1.14.1
+chembl-webresource-client==0.10.8
