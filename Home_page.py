@@ -155,13 +155,13 @@ angle_yolk = -0.177887
 # 점이 yolk 타원 내부에 있는지 확인
 def is_inside_EGG(x, y):
     HIA = is_point_inside_ellipse(
-        point_x, point_y, 
+        x, y, 
         ellipse_center_white_yolk, ellipse_width_white_yolk, ellipse_height_white_yolk, 
         angle_white_yolk
     )
     
     BBB = is_point_inside_ellipse(
-        point_x, point_y, 
+        x, y, 
         ellipse_center_yolk, ellipse_width_yolk, ellipse_height_yolk, 
         angle_yolk
     )
