@@ -140,4 +140,5 @@ st.write("num of Rotatable bonds: ", rtb)
 st.write("Ro5: ", violation)
 st.write("Charge: ", charge)
 
+st.dataframe(chembl_func(input_string))
 
