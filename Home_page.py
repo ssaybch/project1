@@ -4,6 +4,7 @@ import numpy as np
 import rdkit
 from rdkit import Chem
 from rdkit.Chem import QED, Descriptors, Lipinski
+import json
 
 # Chembl 예측 관련 모듈
 import onnxruntime
@@ -15,6 +16,9 @@ from chembl_webresource_client.new_client import new_client
 # mol 그리기
 from streamlit_ketcher import st_ketcher
 
+# PDB 그리기
+from stmol import showmol
+import py3Dmol
 
 
 ##### 페이지레이아웃 지정 단락 #####
@@ -126,7 +130,7 @@ def chembl_func(smiles):
                     ])
                     result_UNIPROT.append(tars[m]['target_components'][0]['accession'])
     result_df = pd.DataFrame(data = result_9606_GENE_chemblid_proba, columns=['GENE','ChEMBL_ID','UNIPROT_ID','probability'])
-    return result_df, result_UNIPROT
+    return result_df, result_uniprot
 
 
 def is_point_inside_ellipse(x, y, ellipse_center, ellipse_width, ellipse_height, angle):
@@ -170,6 +174,16 @@ def is_inside_EGG(x, y):
     )
     return HIA, BBB
 
+
+# PDB_id 받아오기
+def uniprot_to_pdb(query):
+    url = "https://rest.uniprot.org/uniprotkb/" + query
+    req = requests.get(url)
+    soup = json.loads(req.text)
+    pdb_list = [item['id'] for item in soup['uniProtKBCrossReferences'] if item['database'] == 'PDB']
+    return pdb_list
+
+
 # PDB 렌더
 def render_pdb(id='7T59'):
     viewer = py3Dmol.view(query=id)
@@ -201,7 +215,7 @@ if HIA == True:
 else:
     HIA = 'Low'
 
-result_df, result_UNIPROT = chembl_func(input_string)
+result_df, result_uniprot = chembl_func(input_string)
 
 st.subheader("Physicochemical properties, simple ADME")
 st.write("Molecular weight: ", round(mw, 3))
@@ -227,13 +241,24 @@ st.dataframe(result_df,
              }
             )
 
-
-option = st.selectbox(
-    '렌더링할 PDB entry를 선택하세요.',
-    ('Email', 'Home phone', 'Mobile phone'),
+option_uniprot = st.selectbox(
+    'UNIPROT ID골라요',
+    (result_uniprot),
     index=None,
-    placeholder="렌더링할 PDB entry를 선택하세요.",
+    placeholder='UNIPROT ID골라요',
 )
+
+pdb_list = uniprot_to_pdb(option_uniprot)
+option_pdb = st.selectbox(
+    'PDB ID골라요',
+    (pdb_list),
+    index=None,
+    placeholder='PDB 골라요',
+)
+
+xyzview = py3Dmol.view(query='pdb:1A2C') 
+xyzview.setStyle({'cartoon':{'color':'spectrum'}})
+showmol(xyzview, height = 500,width=800)
 
 
 
