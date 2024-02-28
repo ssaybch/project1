@@ -244,19 +244,20 @@ st.dataframe(result_df,
 
 option_uniprot = st.selectbox(
     'UNIPROT ID골라요',
-    ('UNIPROT ID골라요', result_uniprot)    
+    (result_uniprot)    
 )
 st.write(option_uniprot)
 
-if option_uniprot != 'UNIPROT ID골라요':
-    pdb_list = uniprot_to_pdb(option_uniprot)
+pdb_list = uniprot_to_pdb(option_uniprot)
 
 option_pdb = st.selectbox(
     'PDB ID골라요',
-    ('PDB ID골라요', pdb_list)    
+    (pdb_list),
+    index=None,
+    placeholder="Select contact method..."
 )
 
-if option_pdb != 'PDB 골라요':
+if option_pdb != None:
     showmol(render_pdb(id = option_pdb))
 
 # xyzview = py3Dmol.view(query='pdb:1A2C') 
