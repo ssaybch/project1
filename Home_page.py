@@ -116,7 +116,7 @@ def chembl_func(smiles):
     tars = target.filter(target_chembl_id__in=list(dict_predicted_CHEMBL.keys()))
     
     result_9606_GENE_chemblid_proba = list()
-    result_UNIPROT = list()
+    result_uniprot = list()
     for m in range(len(tars)):
         if tars[m]['organism'] == 'Homo sapiens':
             for n in tars[m]['target_components'][0]['target_component_synonyms']:
@@ -128,7 +128,7 @@ def chembl_func(smiles):
                         "https://www.uniprot.org/uniprotkb/" + tars[m]['target_components'][0]['accession'] + "/entry",
                         dict_predicted_CHEMBL[tars[m]['target_chembl_id']]
                     ])
-                    result_UNIPROT.append(tars[m]['target_components'][0]['accession'])
+                    result_uniprot.append(tars[m]['target_components'][0]['accession'])
     result_df = pd.DataFrame(data = result_9606_GENE_chemblid_proba, columns=['GENE','ChEMBL_ID','UNIPROT_ID','probability'])
     return result_df, result_uniprot
 
