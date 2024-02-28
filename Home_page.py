@@ -258,13 +258,13 @@ option_pdb = st.selectbox(
 st.write('선택한 PDB ID :', option_pdb)
 
 if option_pdb != None:
-    #showmol(render_pdb(id = option_pdb))
+    st.write('* 마우스 휠로 확대/축소 가능하고 드래그로 방향을 바꿀 수 있습니다.')
     xyzview = py3Dmol.view(query='pdb:'+option_pdb) 
     xyzview.setStyle({'cartoon':{'color':'spectrum'}})
     showmol(xyzview, height = 500,width=800)
-    st.write('마우스 휠로 확대/축소 가능하고 드래그로 방향을 바꿀 수 있습니다.')
+    showmol(render_pdb(id = option_pdb))
 
-
+st.divider()
 st.write("")
 st.write("References")
 st.write("[1] Bickerton GR, Paolini GV, Besnard J, Muresan S, Hopkins AL. Quantifying the chemical beauty of drugs. Nat Chem. 2012 Jan 24;4(2):90-8. doi: 10.1038/nchem.1243. PMID: 22270643; PMCID: PMC3524573.")
