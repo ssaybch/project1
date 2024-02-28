@@ -261,8 +261,7 @@ if option_pdb != None:
     st.write('* 마우스 휠로 확대/축소 가능하고 드래그로 방향을 바꿀 수 있습니다.')
     xyzview = py3Dmol.view(query='pdb:'+option_pdb) 
     xyzview.setStyle({'cartoon':{'color':'spectrum'}})
-    showmol(xyzview, height = 500,width=800)
-    showmol(render_pdb(id = option_pdb))
+    showmol(xyzview, height = 750,width=1000)
 
 st.divider()
 st.write("")
