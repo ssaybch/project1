@@ -204,7 +204,7 @@ with st.sidebar:
 
 
 ##### 메인콘텐츠 지정 단락 #####
-st.subheader("분석하려는 성분의 SMILES 또는 isoSMILES를 아래에 입력하세요.")
+st.subheader("분석하려는 성분의 SMILES 또는 isoSMILES를 아래에 입력하고 Enter를 누르세요.")
 input_string  = st.text_input("","CC(=C)C(O)=O", help="올바르지 않은 SMILES일 경우 에러가 출력됩니다.")
 st.write("입력한 분자 SMILES: ", input_string)
 smile_code = st_ketcher(input_string, height=400)
@@ -242,27 +242,25 @@ st.dataframe(result_df,
              }
             )
 
+st.write("UniProt accession ID로 PDB를 반환해 렌더링합니다. 렌더링에는 시간이 다소 소모됩니다.")
 option_uniprot = st.selectbox(
-    'UNIPROT ID골라요',
+    'UniProt ID를 선택하세요',
     (result_uniprot)    
 )
-st.write(option_uniprot)
-
 pdb_list = uniprot_to_pdb(option_uniprot)
 
 option_pdb = st.selectbox(
-    'PDB ID골라요',
+    '렌더링할 PDB accession ID를 선택하세요',
     (pdb_list),
     index=None,
-    placeholder="Select contact method..."
+    placeholder="PDB accession ID를 선택하고 잠시 기다려주세요."
 )
 
 if option_pdb != None:
-    showmol(render_pdb(id = option_pdb))
-
-# xyzview = py3Dmol.view(query='pdb:1A2C') 
-# xyzview.setStyle({'cartoon':{'color':'spectrum'}})
-# showmol(xyzview, height = 500,width=800)
+    #showmol(render_pdb(id = option_pdb))
+    xyzview = py3Dmol.view(query='pdb:'+option_pdb) 
+    xyzview.setStyle({'cartoon':{'color':'spectrum'}})
+    showmol(xyzview, height = 500,width=800)
 
 
 
