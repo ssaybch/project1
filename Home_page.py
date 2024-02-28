@@ -242,7 +242,7 @@ st.dataframe(result_df,
              }
             )
 
-st.write("UniProt accession ID로 PDB를 반환해 렌더링합니다. 렌더링에는 시간이 다소 소모됩니다.")
+st.write("표적 단백질의 UniProt accession ID로 PDB를 반환해 렌더링합니다. 렌더링에는 시간이 다소 소모됩니다.")
 option_uniprot = st.selectbox(
     'UniProt ID를 선택하세요',
     (result_uniprot)    
@@ -256,14 +256,13 @@ option_pdb = st.selectbox(
     placeholder="PDB accession ID를 선택하고 잠시 기다려주세요."
 )
 st.write('선택한 PDB ID :', option_pdb)
-st.write('마우스 휠로 확대/축소 가능하고 드래그로 방향을 바꿀 수 있습니다.')
 
 if option_pdb != None:
     #showmol(render_pdb(id = option_pdb))
     xyzview = py3Dmol.view(query='pdb:'+option_pdb) 
     xyzview.setStyle({'cartoon':{'color':'spectrum'}})
     showmol(xyzview, height = 500,width=800)
-
+    st.write('마우스 휠로 확대/축소 가능하고 드래그로 방향을 바꿀 수 있습니다.')
 
 
 st.write("")
