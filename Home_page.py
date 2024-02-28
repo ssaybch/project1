@@ -250,7 +250,7 @@ option_uniprot = st.selectbox(
 )
 st.write(option_uniprot)
 
-if option_uniporot != 'UNIPROT ID골라요':
+if option_uniprot != 'UNIPROT ID골라요':
     pdb_list = uniprot_to_pdb(option_uniprot)
 
 option_pdb = st.selectbox(
