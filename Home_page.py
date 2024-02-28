@@ -17,7 +17,7 @@ from chembl_webresource_client.new_client import new_client
 from streamlit_ketcher import st_ketcher
 
 # PDB 그리기
-from stmol import showmol
+from stmol import *
 import py3Dmol
 
 
