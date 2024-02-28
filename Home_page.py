@@ -207,6 +207,7 @@ st.dataframe(chembl_func(input_string),
              column_config={
                  "UNIPROT_ID": st.column_config.LinkColumn(
                      display_text="https://www.uniprot.org/uniprotkb/(.*?)/entry"
+                     }
             )
 
 st.write("")
