@@ -247,6 +247,7 @@ option_uniprot = st.selectbox(
     index=None,
     placeholder='UNIPROT ID골라요',
 )
+st.write(option_uniprot)
 
 pdb_list = uniprot_to_pdb(option_uniprot)
 option_pdb = st.selectbox(
