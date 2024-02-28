@@ -255,6 +255,8 @@ option_pdb = st.selectbox(
     index=None,
     placeholder="PDB accession ID를 선택하고 잠시 기다려주세요."
 )
+st.write('선택한 PDB ID :', option_pdb)
+st.write('마우스 휠로 확대/축소 가능하고 드래그로 방향을 바꿀 수 있습니다.')
 
 if option_pdb != None:
     #showmol(render_pdb(id = option_pdb))
