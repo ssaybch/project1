@@ -250,7 +250,9 @@ option_uniprot = st.selectbox(
 )
 st.write(option_uniprot)
 
-pdb_list = uniprot_to_pdb(option_uniprot)
+if option_uniporot != 'UNIPROT ID골라요':
+    pdb_list = uniprot_to_pdb(option_uniprot)
+
 option_pdb = st.selectbox(
     'PDB ID골라요',
     (pdb_list),
@@ -258,9 +260,12 @@ option_pdb = st.selectbox(
     placeholder='PDB 골라요',
 )
 
-xyzview = py3Dmol.view(query='pdb:1A2C') 
-xyzview.setStyle({'cartoon':{'color':'spectrum'}})
-showmol(xyzview, height = 500,width=800)
+if option_pdb != 'PDB 골라요':
+    showmol(render_pdb(id = option_pdb))
+
+# xyzview = py3Dmol.view(query='pdb:1A2C') 
+# xyzview.setStyle({'cartoon':{'color':'spectrum'}})
+# showmol(xyzview, height = 500,width=800)
 
 
 
