@@ -120,8 +120,8 @@ def chembl_func(smiles):
                     result_9606_GENE_chemblid_proba.append([
                         gene_list,
                         tars[m]['target_chembl_id'],
-                        tars[m]['target_components'][0]['accession'],
-                        "https://www.uniprot.org/uniprotkb/", dict_predicted_CHEMBL[tars[m]['target_chembl_id']], "/entry"
+                        "https://www.uniprot.org/uniprotkb/" + tars[m]['target_components'][0]['accession'] + "/entry",
+                        dict_predicted_CHEMBL[tars[m]['target_chembl_id']]
                     ])
     result_df = pd.DataFrame(data = result_9606_GENE_chemblid_proba, columns=['GENE','ChEMBL_ID','UNIPROT_ID','probability'])
     return result_df
