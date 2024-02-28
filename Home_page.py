@@ -112,6 +112,7 @@ def chembl_func(smiles):
     tars = target.filter(target_chembl_id__in=list(dict_predicted_CHEMBL.keys()))
     
     result_9606_GENE_chemblid_proba = list()
+    result_UNIPROT = list()
     for m in range(len(tars)):
         if tars[m]['organism'] == 'Homo sapiens':
             for n in tars[m]['target_components'][0]['target_component_synonyms']:
@@ -123,8 +124,9 @@ def chembl_func(smiles):
                         "https://www.uniprot.org/uniprotkb/" + tars[m]['target_components'][0]['accession'] + "/entry",
                         dict_predicted_CHEMBL[tars[m]['target_chembl_id']]
                     ])
+                    result_UNIPROT.append(tars[m]['target_components'][0]['accession'])
     result_df = pd.DataFrame(data = result_9606_GENE_chemblid_proba, columns=['GENE','ChEMBL_ID','UNIPROT_ID','probability'])
-    return result_df
+    return result_df, result_UNIPROT
 
 
 def is_point_inside_ellipse(x, y, ellipse_center, ellipse_width, ellipse_height, angle):
@@ -168,6 +170,18 @@ def is_inside_EGG(x, y):
     )
     return HIA, BBB
 
+# PDB 렌더
+def render_pdb(id='7T59'):
+    viewer = py3Dmol.view(query=id)
+    viewer.setStyle({ "cartoon": {
+        "color": "spectrum",
+        "colorReverse": True,
+        "colorScale": "RdYlGn",
+        "colorScheme": "Polarity",
+        "colorBy": "resname",
+            }})
+    return viewer
+
 
 ##### 사이드바 지정 단락 #####
 with st.sidebar:
@@ -186,7 +200,9 @@ if HIA == True:
     HIA = 'High'
 else:
     HIA = 'Low'
-    
+
+result_df, result_UNIPROT = chembl_func(input_string)
+
 st.subheader("Physicochemical properties, simple ADME")
 st.write("Molecular weight: ", round(mw, 3))
 st.write("QED: ", qed, '[1]')
@@ -202,7 +218,7 @@ st.write("Brain-blood barrier permeable: ", BBB, '[4]')
 
 st.subheader("Target protein prediction")
 st.text("관심 성분과 70 % 이상의 확률로 결합이 예측되는 단백질은 다음과 같습니다. ChEMBL DB 33 버전을 사용합니다.")
-st.dataframe(chembl_func(input_string),
+st.dataframe(result_df,
              use_container_width =True,
              column_config={
                  "UNIPROT_ID": st.column_config.LinkColumn(
@@ -210,6 +226,16 @@ st.dataframe(chembl_func(input_string),
                  )
              }
             )
+
+
+option = st.selectbox(
+    '렌더링할 PDB entry를 선택하세요.',
+    ('Email', 'Home phone', 'Mobile phone'),
+    index=None,
+    placeholder="렌더링할 PDB entry를 선택하세요.",
+)
+
+
 
 st.write("")
 st.write("References")
