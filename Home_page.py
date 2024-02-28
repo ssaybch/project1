@@ -244,9 +244,7 @@ st.dataframe(result_df,
 
 option_uniprot = st.selectbox(
     'UNIPROT ID골라요',
-    (result_uniprot),
-    index=None,
-    placeholder='UNIPROT ID골라요',
+    ('UNIPROT ID골라요', result_uniprot)    
 )
 st.write(option_uniprot)
 
@@ -255,9 +253,7 @@ if option_uniprot != 'UNIPROT ID골라요':
 
 option_pdb = st.selectbox(
     'PDB ID골라요',
-    (pdb_list),
-    index=None,
-    placeholder='PDB 골라요',
+    ('PDB ID골라요', pdb_list)    
 )
 
 if option_pdb != 'PDB 골라요':
