@@ -8,3 +8,4 @@ chembl-webresource-client
 seaborn
 stmol
 py3Dmol==2.0.0.post2
+ipython_genutils
