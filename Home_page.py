@@ -202,7 +202,12 @@ st.write("Brain-blood barrier permeable: ", BBB, '[4]')
 
 st.subheader("Target protein prediction")
 st.text("관심 성분과 70 % 이상의 확률로 결합이 예측되는 단백질은 다음과 같습니다. ChEMBL DB 33 버전을 사용합니다.")
-st.dataframe(chembl_func(input_string), use_container_width =True)
+st.dataframe(chembl_func(input_string),
+             use_container_width =True,
+             column_config={
+                 "UNIPROT_ID": st.column_config.LinkColumn(
+                     display_text="https://www.uniprot.org/uniprotkb/(.*?)/entry"
+            )
 
 st.write("")
 st.write("References")
