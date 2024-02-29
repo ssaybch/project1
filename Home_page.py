@@ -200,9 +200,8 @@ def render_pdb(id='7T59'):
 
 ##### 사이드바 지정 단락 #####
 with st.sidebar:
-    st.write("asdfasd")
-
-
+    st.write("")
+    
 ##### 메인콘텐츠 지정 단락 #####
 st.subheader("분석하려는 성분의 SMILES 또는 isoSMILES를 아래에 입력하고 Enter를 누르세요.")
 input_string  = st.text_input("","CC(=C)C(O)=O", help="올바르지 않은 SMILES일 경우 에러가 출력됩니다.")
@@ -244,13 +243,13 @@ st.dataframe(result_df,
 
 st.write("표적 단백질의 UniProt accession ID로 PDB를 반환해 렌더링합니다. 렌더링에는 시간이 다소 소모됩니다.")
 option_uniprot = st.selectbox(
-    'UniProt ID를 선택하세요',
+    'UniProt ID를 선택하고 잠시 기다려주세요',
     (result_uniprot)    
 )
 pdb_list = uniprot_to_pdb(option_uniprot)
 
 option_pdb = st.selectbox(
-    '렌더링할 PDB accession ID를 선택하세요',
+    '렌더링할 PDB accession ID를 선택하고 잠시 기다려주세요',
     (pdb_list),
     index=None,
     placeholder="PDB accession ID를 선택하고 잠시 기다려주세요."
