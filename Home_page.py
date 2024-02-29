@@ -234,8 +234,7 @@ st.write("Human intestine absorbable: ", HIA, '[4]')
 st.write("Brain-blood barrier permeable: ", BBB, '[4]')
 
 st.subheader("Target protein prediction")
-st.text("관심 성분과 70 % 이상의 확률로 결합이 예측되는 단백질은 다음과 같습니다. ChEMBL DB 33 버전을 사용합니다.")
-st.text("표의 열 제목을 누르면 정렬이 가능합니다.")
+st.text("관심 성분과 70 % 이상의 확률로 결합이 예측되는 단백질은 다음과 같습니다. ChEMBL DB 33 버전을 사용합니다. 표의 열 제목을 누르면 정렬이 가능합니다.")
 st.dataframe(result_df,
              use_container_width =True,
              column_config={
