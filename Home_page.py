@@ -200,7 +200,8 @@ def render_pdb(id='7T59'):
 
 ##### 사이드바 지정 단락 #####
 with st.sidebar:
-    st.write("")
+    st.write("Chang-Hwan Bae")
+    st.write("E-mail : ssaybch@gmail.com")
     
 ##### 메인콘텐츠 지정 단락 #####
 st.subheader("분석하려는 성분의 SMILES 또는 isoSMILES를 아래에 입력하고 Enter를 누르세요.")
