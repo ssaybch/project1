@@ -250,6 +250,8 @@ option_uniprot = st.selectbox(
     (result_uniprot)    
 )
 pdb_list = uniprot_to_pdb(option_uniprot)
+if pdb_list == None:
+   st.write("해당 단백질이 등록된 PDB accession이 없습니다. 다른 단백질을 선택해주세요.") 
 
 option_pdb = st.selectbox(
     '렌더링할 PDB accession ID를 선택하고 잠시 기다려주세요',
