@@ -205,7 +205,7 @@ with st.sidebar:
     
 ##### 메인콘텐츠 지정 단락 #####
 st.subheader("분석하려는 성분의 SMILES 또는 isoSMILES를 아래에 입력하고 Enter를 누르세요.")
-input_string  = st.text_input("","CC(=C)C(O)=O", help="올바르지 않은 SMILES일 경우 에러가 출력됩니다.")
+input_string  = st.text_input("","C1=CC(=CC=C1CO)O", help="올바르지 않은 SMILES일 경우 에러가 출력됩니다.")
 st.write("입력한 화합물 SMILES: ", input_string)
 st.write("직접 그린 화합물을 분석하려면 Save as에서 SMILES 형식을 골라 복사해서 입력칸에 붙여넣으세요.")
 smile_code = st_ketcher(input_string, height=400)
