@@ -131,8 +131,7 @@ def chembl_func(smiles):
                     ])
                     result_uniprot.append(tars[m]['target_components'][0]['accession'])
     result_df = pd.DataFrame(data = result_9606_GENE_chemblid_proba, columns=['GENE','ChEMBL_ID','UNIPROT_ID','probability'])
-    result_df2 = result_df[['GENE','UNIPROT_ID','probability']]
-    return result_df2, result_uniprot #result_df2 나중에 result_df로 바꿀 것
+    return result_df, result_uniprot
 
 
 def is_point_inside_ellipse(x, y, ellipse_center, ellipse_width, ellipse_height, angle):
@@ -236,7 +235,7 @@ st.write("Brain-blood barrier permeable: ", BBB, '[4]')
 
 st.subheader("Target protein prediction")
 st.text("관심 성분과 70 % 이상의 확률로 결합이 예측되는 단백질은 다음과 같습니다. ChEMBL DB 33 버전을 사용합니다. 표의 열 제목을 누르면 정렬이 가능합니다.")
-st.dataframe(result_df2,
+st.dataframe(result_df[['GENE','UNIPROT_ID','probability']],
              use_container_width =True,
              column_config={
                  "UNIPROT_ID": st.column_config.LinkColumn(
