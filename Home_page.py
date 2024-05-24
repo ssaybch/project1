@@ -131,7 +131,7 @@ def chembl_func(smiles):
                     ])
                     result_uniprot.append(tars[m]['target_components'][0]['accession'])
     result_df = pd.DataFrame(data = result_9606_GENE_chemblid_proba, columns=['GENE','ChEMBL_ID','UNIPROT_ID','probability'])
-    result_df2 = result_df.loc[:,['GENE','UNIPROT_ID','probability']]
+    result_df2 = result_df[['GENE','UNIPROT_ID','probability']]
     return result_df2, result_uniprot #result_df2 나중에 result_df로 바꿀 것
 
 
